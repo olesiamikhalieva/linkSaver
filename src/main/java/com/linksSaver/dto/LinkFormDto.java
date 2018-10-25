@@ -3,11 +3,15 @@ package com.linksSaver.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.Set;
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LinkDto {
-    private long id;
+@AllArgsConstructor
+public class LinkFormDto {
+    private String tagName;
     private String linkName;
-    private ThemeDto themeDto;
+    private String description;
 }

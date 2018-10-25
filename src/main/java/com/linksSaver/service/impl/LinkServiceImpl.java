@@ -1,84 +1,119 @@
 package com.linksSaver.service.impl;
 
 import com.linksSaver.dao.entity.LinkEntity;
-import com.linksSaver.dao.entity.ThemeEntity;
-import com.linksSaver.dao.repository.LinkDao;
-import com.linksSaver.dto.LinkDto;
-import com.linksSaver.dto.ThemeDto;
+import com.linksSaver.dao.entity.TagEntity;
+import com.linksSaver.dao.repository.LinkRepository;
+import com.linksSaver.dao.repository.TagRepository;
+import com.linksSaver.dto.LinkFormDto;
+import com.linksSaver.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 @Service
 @Transactional
-public class LinkServiceImpl {
+public class LinkServiceImpl implements LinkService {
+
     @Autowired
-    private LinkDao linkDao;
+    private LinkRepository linkRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
 
-    public List<LinkDto> getLinksList() {
-        List<LinkDto> linkDtos = new ArrayList<>();
-        for (LinkEntity linkEntity : linkDao.getLinksList()) {
-            LinkDto linkDto = new LinkDto();
-            linkDto.setLinkName(linkEntity.getLink_name());
-            ThemeDto themeDto = new ThemeDto();
-            themeDto.setNameTheme(linkEntity.getTheme().getName_theme());
-            linkDto.setThemeDto(themeDto);
-            linkDtos.add(linkDto);
+    //get all linkFormDtos
+    public Set<LinkFormDto> getLinkFormDtoSet() {
+        Set<LinkFormDto> linkFormDtos = new HashSet<>();
+        for (TagEntity tagEntity : tagRepository.findAll()) {
+            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
         }
-        return linkDtos;
+        return linkFormDtos;
     }
 
-    public List<ThemeDto> getThemeDtoList() {
-        List<ThemeDto> themeDtos = new ArrayList<>();
-        for (ThemeEntity themeEntity : linkDao.getThemeList()) {
-            ThemeDto themeDto = new ThemeDto();
-            themeDto.setNameTheme(themeEntity.getName_theme());
-            themeDtos.add(themeDto);
+
+    //get links by tagName
+    public Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName) {
+        Set<LinkFormDto> linkFormDtos = new HashSet<>();
+        for (TagEntity tagEntity : tagRepository.findByTagName(tagName)) {
+            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
         }
-        return themeDtos;
+        return linkFormDtos;
     }
 
-    public void addLinkDtoToDB(LinkDto linkDto) {
-        try {
-            LinkEntity linkEntity = constructLinkEntityFromLinkDto(linkDto);
-            linkDao.saveOrUpdate(linkEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void constructLinkFormDtoFromTagEntity(Set<LinkFormDto> linkFormDtos, TagEntity tagEntity) {
+        for (LinkEntity link : tagEntity.getLinks()) {
+            LinkFormDto linkFormDto = new LinkFormDto();
+            linkFormDto.setTagName(tagEntity.getTagName());
+            linkFormDto.setLinkName(link.getLinkName());
+            linkFormDto.setDescription(link.getDescription());
+            linkFormDtos.add(linkFormDto);
         }
     }
 
-    private Boolean checkUniqueTheme(String theme) {
-        boolean check = false;
-        for (ThemeDto themeDto : getThemeDtoList()) {
-            if (theme.equals(themeDto.getNameTheme())) {
-                check = true;
-            } else {
-                check = false;
+    //add link to DB
+    public String addTagDtoToDB(LinkFormDto linkFormDto) {
+        TagEntity tagEntity = checkUniqueTag(linkFormDto.getTagName());
+        if (tagEntity == null) {
+            tagEntity = constructTagEntityFromLinkFormDto(linkFormDto);
+            try {
+                tagRepository.saveAndFlush(tagEntity);
+                return "link is saved";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "error saved link";
+            }
+        } else {
+            updateTagEntity(linkFormDto, tagEntity);
+            try {
+                tagRepository.saveAndFlush(tagEntity);
+                return "link is update";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "link is not update";
             }
         }
-        return check;
     }
 
-    private LinkEntity constructLinkEntityFromLinkDto(LinkDto linkDto) {
+    private void updateTagEntity(LinkFormDto linkFormDto, TagEntity tagEntity) {
         LinkEntity linkEntity = new LinkEntity();
-        linkEntity.setLink_name(linkDto.getLinkName());
-        ThemeEntity themeEntity = new ThemeEntity();
-        themeEntity.setName_theme(linkDto.getThemeDto().getNameTheme());
-        linkEntity.setTheme(themeEntity);
-        return linkEntity;
+        linkEntity.setLinkName(linkFormDto.getLinkName());
+        linkEntity.setDescription(linkFormDto.getDescription());
+        linkEntity.setDate(new Date());
+        Set<LinkEntity> links = tagEntity.getLinks();
+        links.add(linkEntity);
+        tagEntity.setLinks(links);
     }
 
-    public void deleteLink(LinkDto linkDto){
-        try {
-            LinkEntity linkEntity = constructLinkEntityFromLinkDto(linkDto);
-            linkDao.removeByLinkName(linkEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private TagEntity constructTagEntityFromLinkFormDto(LinkFormDto linkFormDto) {
+        TagEntity tagEntity;
+        Set<LinkEntity> links = new HashSet<>();
+        LinkEntity linkEntity = new LinkEntity();
+        linkEntity.setLinkName(linkFormDto.getLinkName());
+        linkEntity.setDescription(linkFormDto.getDescription());
+        linkEntity.setDate(new Date());
+        links.add(linkEntity);
+        tagEntity = new TagEntity();
+        tagEntity.setTagName(linkFormDto.getTagName());
+        tagEntity.setLinks(links);
+        return tagEntity;
+    }
+
+
+    public void deleteLinkFromDB(LinkFormDto linkFormDto) {
+        linkRepository.deleteByLinkName(linkFormDto.getLinkName());
+    }
+
+
+    private TagEntity checkUniqueTag(String tagName) {
+        for (TagEntity tagEntity : tagRepository.findAll()) {
+            if (tagName.equals(tagEntity.getTagName())) {
+                return tagEntity;
+            }
         }
+        return null;
     }
 
 

@@ -3,25 +3,32 @@ package com.linksSaver.dao.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-@Table(name = "links_table")
+@Table(name = "links")
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkEntity {
+public class LinkEntity implements Serializable {
+
+    @Column(name = "link_id")
     @Id
-    @GeneratedValue
-    private long id_link;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long linkId;
+
+    @Column(name = "link", unique = true)
+    private String linkName;
 
     @Column
-    private String link_name;
+    private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_theme", referencedColumnName = "id_theme", insertable = false, updatable = false, unique = true)
-    private ThemeEntity theme;
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
 
 }

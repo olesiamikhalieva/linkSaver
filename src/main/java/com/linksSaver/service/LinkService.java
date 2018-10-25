@@ -1,22 +1,18 @@
-//package com.linksSaver.service;
-//
-//import com.linksSaver.dao.entity.LinkEntity;
-//import com.linksSaver.dao.entity.ThemeEntity;
-//
-//import java.util.List;
-//
-//public interface LinkSService<T> {
-//
-//    List<LinkEntity> getLinksList();
-//
-//    List<ThemeEntity> getThemeList();
-//
-//    LinkEntity getLinksById(long id);
-//
-//    ThemeEntity getThemeById(long id);
-//
-//    void remove(T o);
-//
-//    void saveOrUpdate(T o);
-//
-//}
+package com.linksSaver.service;
+
+import com.linksSaver.dto.LinkFormDto;
+
+import java.util.Set;
+
+public interface LinkService {
+
+   Set<LinkFormDto> getLinkFormDtoSet();
+
+    Set<LinkFormDto> getLinkFormDtoSetByTagName(String themeName);
+
+    String addTagDtoToDB(LinkFormDto linkFormDto);
+
+    void deleteLinkFromDB(LinkFormDto linkFormDto);
+
+
+}
