@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class UserInfoService {
+public class UserLinksServiceImpl implements UserLinksService {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,57 +30,10 @@ public class UserInfoService {
     private TagRepository tagRepository;
 
 
-    private UserInfo getCurrentUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserInfo userInfo = userRepository.findByUsername(authentication.getName());
-        System.out.println("UserInfo at begin userInfoService: " + userInfo);
-        return userInfo;
-    }
-
-    private void updateUserInfo(UserInfo userInfo) {
-        userRepository.saveAndFlush(userInfo);
-    }
-
-
-    @Transactional
-    public Set<LinkFormDto> getLinkFormDtoSet() {
-        UserInfo userInfo = getCurrentUserInfo();
-        System.out.println(userInfo.toString());
-        Set<LinkFormDto> linkFormDtos = new HashSet<>();
-        for (TagEntity tagEntity : userInfo.getTags()) {
-            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
-        }
-        for (LinkFormDto linkFormDto : linkFormDtos) {
-            System.out.println("getLinkFormDtoSet:     "+linkFormDto.getTagName()+"------>"+linkFormDto.getLinkName());
-        }
-        return linkFormDtos;
-    }
-
-    private void constructLinkFormDtoFromTagEntity(Set<LinkFormDto> linkFormDtos, TagEntity tagEntity) {
-        for (LinkEntity link : tagEntity.getLinks()) {
-            LinkFormDto linkFormDto = new LinkFormDto();
-            linkFormDto.setTagName(tagEntity.getTagName());
-            linkFormDto.setLinkName(link.getLinkName());
-            linkFormDto.setDescription(link.getDescription());
-            linkFormDtos.add(linkFormDto);
-        }
-    }
-
-    //get links by tagName
-    @Transactional
-    public Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName) {
-        Set<LinkFormDto> linkFormDtos = new HashSet<>();
-//        userInfo.getTags().
-        for (TagEntity tagEntity : tagRepository.findByTagName(tagName)) {
-            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
-        }
-        return linkFormDtos;
-    }
-
-
     //add link to DB
+    @Override
     @Transactional
-    public String addTagDtoToDB(LinkFormDto linkFormDto) {
+    public String addLinkFormDtoToDB(LinkFormDto linkFormDto) {
         TagEntity tagEntity = checkUniqueTag(linkFormDto.getTagName());
         if (tagEntity == null) {
             tagEntity = constructTagEntityFromLinkFormDto(linkFormDto);
@@ -105,6 +58,65 @@ public class UserInfoService {
         }
     }
 
+
+    @Override
+    @Transactional
+    public Set<LinkFormDto> getLinkFormDtoSetFromDB() {
+        UserInfo userInfo = getCurrentUserInfo();
+        Set<LinkFormDto> linkFormDtos = new HashSet<>();
+        for (TagEntity tagEntity : userInfo.getTags()) {
+            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
+        }
+        return linkFormDtos;
+    }
+
+
+    //get links by tagName
+    @Override
+    @Transactional
+    public Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName) {
+        UserInfo userInfo = getCurrentUserInfo();
+        Set<LinkFormDto> linkFormDtos = new HashSet<>();
+        for (TagEntity tag : userInfo.getTags()) {
+            if (tagName.equals(tag.getTagName())) {
+                constructLinkFormDtoFromTagEntity(linkFormDtos, tag);
+            }
+        }
+        return linkFormDtos;
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteLinkFromDB(LinkFormDto linkFormDto) {
+        linkRepository.deleteLinkEntityByLinkName(linkFormDto.getLinkName());
+    }
+
+
+    private UserInfo getCurrentUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfo userInfo = userRepository.findByUsername(authentication.getName());
+        System.out.println("UserInfo at begin userInfoService: " + userInfo);
+        return userInfo;
+    }
+
+
+    private void updateUserInfo(UserInfo userInfo) {
+        userRepository.saveAndFlush(userInfo);
+    }
+
+
+    private void constructLinkFormDtoFromTagEntity(Set<LinkFormDto> linkFormDtos, TagEntity tagEntity) {
+        for (LinkEntity link : tagEntity.getLinks()) {
+            LinkFormDto linkFormDto = new LinkFormDto();
+            linkFormDto.setTagName(tagEntity.getTagName());
+            linkFormDto.setLinkName(link.getLinkName());
+            linkFormDto.setDescription(link.getDescription());
+            linkFormDtos.add(linkFormDto);
+        }
+    }
+
+
     private void updateTagEntity(LinkFormDto linkFormDto, TagEntity tagEntity) {
         getCurrentUserInfo();
         LinkEntity linkEntity = new LinkEntity();
@@ -116,6 +128,7 @@ public class UserInfoService {
         tagEntity.setLinks(links);
         getCurrentUserInfo().getTags().add(tagEntity);
     }
+
 
     private TagEntity constructTagEntityFromLinkFormDto(LinkFormDto linkFormDto) {
         Set<LinkEntity> links = new HashSet<>();
@@ -129,11 +142,6 @@ public class UserInfoService {
         tagEntity.setLinks(links);
         getCurrentUserInfo().getTags().add(tagEntity);
         return tagEntity;
-    }
-
-    @Transactional
-    public void deleteLinkFromDB(LinkFormDto linkFormDto) {
-        linkRepository.deleteByLinkName(linkFormDto.getLinkName());
     }
 
 

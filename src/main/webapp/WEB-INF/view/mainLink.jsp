@@ -3,13 +3,10 @@
 <html>
 <head>
     <title>LinksSaver</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"
-          media="screen">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link href="../nestednav.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <style>
         <%@include file='../kautube/hi.css' %>
     </style>
@@ -17,7 +14,7 @@
 <body>
 
 <div class="container">
-        <div class="row">
+    <div class="row">
         <div class="span12">
             <div class="container">
                 <div class="row">
@@ -35,86 +32,76 @@
             </div>
         </div>
         <div class="container">
+            <%--<div class="row">--%>
+            <%--<div class="span12">--%>
+            <%--<div class="container">--%>
             <div class="row">
-                <div class="span12">
-                    <div class="container">
-                        <div class="row">
-                            <div class="span3">
-                                <form action="/linksSaver/add" modelAttribute="linkFormDto">
-                                    <div class="form gp">
-                                        <div class="col-4">
-                                            <label for="linkName"
-                                                   class="col-form-label-sm">Link:</label>
-                                            <input type="text" class="form-control col-form-label-sm"
-                                                   id="linkName"
-                                                   name="linkName">
+                <%--<div class="span3">--%>
+                <form action="/linksSaver/add" modelAttribute="linkFormDto">
+                    <div class="form gp">
+                        <div class="col-md-4 margin-bottom-30">
+                            <%--<div class="col-4">--%>
+                            <label for="linkName"
+                                   class="col-form-label-sm">Link:</label>
+                            <input type="text" class="form-control col-form-label-sm"
+                                   id="linkName"
+                                   name="linkName">
 
-                                            <label for="tagEntity"
-                                                   class="col-form-label-sm">Tag:</label>
-                                            <div class="input-append">
-                                                <input type="text"
-                                                       class="form-control col-form-label-sm"
-                                                       id="tagEntity"
-                                                       name="tagName">
+                            <label for="tagEntity"
+                                   class="col-form-label-sm">Tag:</label>
+                            <div class="input-append">
+                                <input type="text"
+                                       class="form-control col-form-label-sm"
+                                       id="tagEntity"
+                                       name="tagName">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" rows="5" id="description"
+                                          name="description"></textarea>
+                            </div>
+                            <br>
+                            <input class=" btn btn-primary btn-sm" type="submit"
+                                   value="    Add    ">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="container">
+                        <c:forEach items="${allLinksList}" var="links">
+                            <div class="card">
+                                <div class="col-md-offset-4 margin-bottom-30">
+                                    <div class="portlet portlet-bordered">
+                                        <div class="portlet-title">
+                                            <div class="caption caption-red">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                <span class="caption-subject text-uppercase">${links.tagName}</span>
+                                            </div>
+                                            <br>
+                                            <div class="card-body">
+                                                <h4 class="card-title"><a href="${links.linkName}">${links.linkName}</a>
+                                                </h4>
+                                                <p class="card-text">${links.description}</p>
+                                                <div class="actions">
+                                                    <a href="/linksSaver/delete" class="btn btn-primary">Delete</a>
+                                                    <a href="#" class="btn btn-primary">Edit</a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="description">Description:</label>
-                                            <textarea class="form-control" rows="5" id="description"
-                                                      name="description"></textarea>
-                                        </div>
-                                        <br>
-                                        <input class=" btn btn-outline-primary btn-sm" type="submit"
-                                               value="Add">
                                     </div>
-                                </form>
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button"
-                                            data-toggle="dropdown">
-                                        Setting
-                                        <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="#">Create</a></li>
-                                        <li><a tabindex="-1" href="#">Delete</a></li>
-                                        <li><a tabindex="-1" href="#">Update</a></li>
-                                    </ul>
-                                    </li>
                                 </div>
                             </div>
-                        </div>
-                            <div class="row">
-                                <%--<div class="span9">--%>
-                                <c:forEach items="${allLinksList}" var="links">
-                                    <div class="col-md-9 margin-bottom-30">
-                                        <div class="portlet portlet-bordered">
-                                            <div class="portlet-title">
-                                                <div class="caption caption-red">
-                                                    <i class="glyphicon glyphicon-cog"></i>
-                                                    <span class="caption-subject text-uppercase">${links.tagName}</span>
-                                                </div>
-                                                <div class="actions">
-                                                    <a href="javascript:;" class="btn btn-red btn-circle">
-                                                        <i class="glyphicon glyphicon-trash"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="portlet-body">
-                                                <h4><a href="${links.linkName}">${links.linkName}</a></h4>
-                                                <p>${links.description}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript"
-            src="//maxcdn.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="../kautube/jquery.nestednav.min.js"></script>
+</div>
+<%--</div>--%>
+<%--</div>--%>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </body>
 </html>

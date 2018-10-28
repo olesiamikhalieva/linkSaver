@@ -32,11 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/registration","/linksSaver","/add").permitAll()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/welcome", "/home").hasRole("USER")
+                .antMatchers("/resources/**", "/registration","/add").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/welcome", "/home","/linksSaver/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
+                .cors().disable()
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/linksSaver")
                 .and()
