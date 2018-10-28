@@ -59,7 +59,6 @@ public class HibernateConfig {
         entityManagerFactoryBean.setPackagesToScan(scanPackage);
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistence.class);
         entityManagerFactoryBean.setJpaProperties(hibernateProperties());
-
         return entityManagerFactoryBean;
     }
 

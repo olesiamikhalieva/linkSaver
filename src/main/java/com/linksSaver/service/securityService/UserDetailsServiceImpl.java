@@ -23,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         UserInfo userInfo = userRepository.findByUsername(username);
         System.out.println("get user info from db {}"  + userInfo);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();

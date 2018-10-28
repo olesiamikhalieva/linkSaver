@@ -17,10 +17,10 @@ public class LinkEntity implements Serializable {
 
     @Column(name = "link_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long linkId;
 
-    @Column(name = "link", unique = true)
+    @Column(name = "link")
     private String linkName;
 
     @Column

@@ -28,10 +28,10 @@ public class UserInfo {
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "tag_id")
-//    private Set<TagEntity> tags;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_info_id")
+    private Set<TagEntity> tags;
 
     @Override
     public String toString() {

@@ -34,7 +34,6 @@ public class LoginAndRegisterController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-
         userService.save(userInfoForm);
         securityService.autologin(userInfoForm.getUsername(), userInfoForm.getPasswordConfirm());
 

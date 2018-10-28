@@ -21,15 +21,15 @@ import java.util.Set;
 public class TagEntity implements Serializable {
     @Column(name = "tag_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long tagId;
 
-    @Column(name = "tag",unique = true)
+    @Column(name = "tag")
     private String tagName;
 
     @Column
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "tag_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "tags_id")
     private Set<LinkEntity> links = new HashSet<>();
 
 }

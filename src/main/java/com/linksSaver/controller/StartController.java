@@ -2,6 +2,7 @@ package com.linksSaver.controller;
 
 import com.linksSaver.dto.LinkFormDto;
 import com.linksSaver.service.LinkService;
+import com.linksSaver.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //@Log4j2
 public class StartController {
 @Autowired
-LinkService linkService;
+private UserInfoService userInfoService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getMain(Model model) {
         model.addAttribute("start", "hello");
-        model.addAttribute("allLinksList", linkService.getLinkFormDtoSet());
+        model.addAttribute("allLinksList", userInfoService.getLinkFormDtoSet());
        // System.out.println(linkService.getLinkFormDtoSet());
         return "mainLink";
     }
@@ -29,13 +30,13 @@ LinkService linkService;
     @GetMapping("/add")
     public String addLink(@ModelAttribute LinkFormDto linkFormDto) {
         System.out.println(linkFormDto);
-       linkService.addTagDtoToDB(linkFormDto);
+       userInfoService.addTagDtoToDB(linkFormDto);
         return "redirect:/linksSaver";
     }
 
     @GetMapping("/delete")
     public String deleteLink(@ModelAttribute LinkFormDto linkFormDto) {
-        linkService.deleteLinkFromDB(linkFormDto);
+        userInfoService.deleteLinkFromDB(linkFormDto);
         return "redirect:/linksSaver";
     }
 

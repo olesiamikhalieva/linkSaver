@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+   // private UserInfo user;
+
     @Override
     @Transactional
     public void save(UserInfo userInfo) {
@@ -33,10 +35,18 @@ public class UserServiceImpl implements UserService {
         System.out.println(userInfo);
         System.out.println(roles);
         userRepository.save(userInfo);
+      //  user = userInfo;
+      //  System.out.println("USER___________"+user.toString());
     }
 
     @Override
     public UserInfo findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+//    @Override
+//    public void update() {
+//        System.out.println("userInfo "+user.toString());
+//        userRepository.saveAndFlush(user);
+//    }
 }
