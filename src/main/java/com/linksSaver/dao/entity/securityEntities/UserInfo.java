@@ -8,11 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
-
-/**
- * Объект юзер инфо который связан с объектом роли как многие ко многим и при генерации таблиц
- * создадут 3-ю таблицу которая и будет связывать ети 2 сущности по ID
- */
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "roles")

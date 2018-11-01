@@ -10,20 +10,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 @Controller
 @RequestMapping("/linksSaver")
 //@Log4j2
 public class StartController {
+    
 @Autowired
 private UserLinksService userLinksService;
 
+private Set<LinkFormDto> linkFormDtos = new HashSet<>();
+
+
     @RequestMapping(method = RequestMethod.GET)
     public String getMain(Model model) {
-        model.addAttribute("start", "hello");
         model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetFromDB());
-       // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       // System.out.println(authentication.getPrincipal().toString());
         return "mainLink";
     }
 
@@ -34,24 +41,20 @@ private UserLinksService userLinksService;
         return "redirect:/linksSaver";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteLink(@ModelAttribute LinkFormDto linkFormDto) {
-        userLinksService.deleteLinkFromDB(linkFormDto);
+    @GetMapping("/delete/{linkName}")
+    public String deleteLink(Model model,@PathVariable String linkName) {
+        //model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetFromDB());
+        userLinksService.deleteLinkFromDB(linkName);
         return "redirect:/linksSaver";
     }
 
-//    @GetMapping("/search")
-//    public String searchByTheme(HttpServletRequest request, Model model){
-//        String tagName = request.getParameter("tagName");
-//        System.out.println(tagName);
-//        model.addAttribute("allLinksList", linkService.getLinkFormDtoSetByTagName(tagName));
-//        return "kautube/kautube2";
-//    }
-
-    @GetMapping("/hi")
-    public String getAll(Model model) {
-        return "hi";
+    @GetMapping("/search")
+    public String searchByTheme(@RequestParam String tagName, Model model){
+        System.out.println("tagName"+tagName);
+        model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetByTagName(tagName));
+        return "mainLink";
     }
+
 
 
 }

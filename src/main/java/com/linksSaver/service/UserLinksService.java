@@ -10,7 +10,7 @@ public interface UserLinksService {
 
     String addLinkFormDtoToDB(LinkFormDto linkFormDto);
 
-    void deleteLinkFromDB(LinkFormDto linkFormDto);
+    void deleteLinkFromDB(String linkName);
 
     Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName);
 }

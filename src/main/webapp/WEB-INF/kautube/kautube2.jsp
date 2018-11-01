@@ -11,7 +11,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="../nestednav.css" rel="stylesheet">
     <style>
-        <%@include file='hi.css' %>
+        <%@include file='../resources/css/mainLink.css' %>
     </style>
 </head>
 <body>

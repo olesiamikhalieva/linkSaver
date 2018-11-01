@@ -32,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/registration","/add").permitAll()
+                .antMatchers("/resources/**", "/registration").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/welcome", "/home","/linksSaver/**").hasRole("USER")
+                .antMatchers( "/linksSaver/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .cors().disable()

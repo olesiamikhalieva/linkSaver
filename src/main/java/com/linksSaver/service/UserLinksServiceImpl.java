@@ -88,8 +88,8 @@ public class UserLinksServiceImpl implements UserLinksService {
 
     @Override
     @Transactional
-    public void deleteLinkFromDB(LinkFormDto linkFormDto) {
-        linkRepository.deleteLinkEntityByLinkName(linkFormDto.getLinkName());
+    public void deleteLinkFromDB(String linkName) {
+        linkRepository.deleteLinkEntityByLinkName(linkName);
     }
 
 

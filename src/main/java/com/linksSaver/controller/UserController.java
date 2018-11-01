@@ -18,25 +18,25 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = {"/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model, @AuthenticationPrincipal UserInfo userInfo, Principal principal, HttpServletRequest servletRequest) {
-        try {
-            System.out.println(userInfo.getUsername());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println(principal.getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            System.out.println(servletRequest.getUserPrincipal().getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "welcome";
-    }
+//    @RequestMapping(value = {"/welcome"}, method = RequestMethod.GET)
+//    public String welcome(Model model, @AuthenticationPrincipal UserInfo userInfo, Principal principal, HttpServletRequest servletRequest) {
+//        try {
+//            System.out.println(userInfo.getUsername());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            System.out.println(principal.getName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            System.out.println(servletRequest.getUserPrincipal().getName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return "welcome";
+//    }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String userok(Model model) {
