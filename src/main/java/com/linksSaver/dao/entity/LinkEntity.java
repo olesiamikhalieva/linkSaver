@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "links")
@@ -29,6 +31,12 @@ public class LinkEntity implements Serializable {
     @Column
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Column
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "link_id")
+    private List<TagEntity> tags= new ArrayList<>();
+
 
 
 }

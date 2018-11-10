@@ -23,21 +23,21 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserInfo userInfo = (UserInfo) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "This field is required.");
         if (userInfo.getUsername().length() < 3 || userInfo.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "Please use between 4 and 32 characters.");
         }
         if (userService.findByUsername(userInfo.getUsername()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+            errors.rejectValue("username", "Someone already has that username.");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "This field is required.");
         if (userInfo.getPassword().length() < 4 || userInfo.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "Try one with at least 4 characters.");
         }
 
         if (!userInfo.getPasswordConfirm().equals(userInfo.getPassword())) {
-            errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+            errors.rejectValue("passwordConfirm", "These passwords don't match.");
         }
     }
 }

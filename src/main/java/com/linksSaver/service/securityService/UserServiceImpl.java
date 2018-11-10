@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -42,6 +43,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<UserInfo> allUsers() {
+        return userRepository.findAll();
+    }
+    @Override
+    public void deleteById(Long id){
+        userRepository.deleteById(id);
     }
 
 }

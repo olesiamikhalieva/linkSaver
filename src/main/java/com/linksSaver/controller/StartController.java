@@ -2,30 +2,23 @@ package com.linksSaver.controller;
 
 import com.linksSaver.dto.LinkFormDto;
 import com.linksSaver.service.UserLinksService;
-import com.linksSaver.service.UserLinksServiceImpl;
+import com.linksSaver.service.securityService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
 @Controller
 @RequestMapping("/linksSaver")
-//@Log4j2
+
 public class StartController {
     
 @Autowired
 private UserLinksService userLinksService;
-
-private Set<LinkFormDto> linkFormDtos = new HashSet<>();
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -42,8 +35,7 @@ private Set<LinkFormDto> linkFormDtos = new HashSet<>();
     }
 
     @GetMapping("/delete/{linkName}")
-    public String deleteLink(Model model,@PathVariable String linkName) {
-        //model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetFromDB());
+    public String deleteLink(@PathVariable String linkName) {
         userLinksService.deleteLinkFromDB(linkName);
         return "redirect:/linksSaver";
     }
@@ -54,7 +46,6 @@ private Set<LinkFormDto> linkFormDtos = new HashSet<>();
         model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetByTagName(tagName));
         return "mainLink";
     }
-
 
 
 }
