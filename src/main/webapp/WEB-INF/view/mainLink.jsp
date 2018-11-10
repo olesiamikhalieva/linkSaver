@@ -34,13 +34,29 @@
                 <input type="text" class="form-control col-form-label-sm"
                        id="linkName"
                        name="linkName">
-                <label for="tagEntity"
-                       class="col-form-label-sm">Tag:</label>
+                <label for="tagEntity1"
+                       class="col-form-label-sm">Tag_1:</label>
                 <div class="input-append">
                     <input type="text"
                            class="form-control col-form-label-sm"
-                           id="tagEntity"
-                           name="tagName">
+                           id="tagEntity1"
+                           name="tag1">
+                </div>
+                <label for="tagEntity2"
+                       class="col-form-label-sm">Tag_2:</label>
+                <div class="input-append">
+                    <input type="text"
+                           class="form-control col-form-label-sm"
+                           id="tagEntity2"
+                           name="tag2">
+                </div>
+                <label for="tagEntity3"
+                       class="col-form-label-sm">Tag_3:</label>
+                <div class="input-append">
+                    <input type="text"
+                           class="form-control col-form-label-sm"
+                           id="tagEntity3"
+                           name="tag3">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
@@ -71,7 +87,15 @@
                             <div class="portlet-title">
                                 <div class="caption caption-red">
                                     <i class="glyphicon glyphicon-cog"></i>
-                                    <span class="caption-subject text-uppercase">${links.tagName}</span>
+                                    <span class="caption-subject text-uppercase">${links.tag1}</span>
+                                </div>
+                                <div class="caption caption-red">
+                                    <i class="glyphicon glyphicon-cog"></i>
+                                    <span class="caption-subject text-uppercase">${links.tag2}</span>
+                                </div>
+                                <div class="caption caption-red">
+                                    <i class="glyphicon glyphicon-cog"></i>
+                                    <span class="caption-subject text-uppercase">${links.tag3}</span>
                                 </div>
                                 <br>
                                 <div class="card-body">

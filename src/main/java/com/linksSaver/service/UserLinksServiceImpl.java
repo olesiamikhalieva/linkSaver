@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserLinksServiceImpl implements UserLinksService {
@@ -26,35 +24,18 @@ public class UserLinksServiceImpl implements UserLinksService {
     @Autowired
     private LinkRepository linkRepository;
 
-    @Autowired
-    private TagRepository tagRepository;
-
 
     //add link to DB
     @Override
     @Transactional
-    public String addLinkFormDtoToDB(LinkFormDto linkFormDto) {
-        TagEntity tagEntity = checkUniqueTag(linkFormDto.getTagName());
-        if (tagEntity == null) {
-            tagEntity = constructTagEntityFromLinkFormDto(linkFormDto);
-            try {
-                tagRepository.saveAndFlush(tagEntity);
-                updateUserInfo(getCurrentUserInfo());
-                return "link is saved";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "error saved link";
-            }
-        } else {
-            updateTagEntity(linkFormDto, tagEntity);
-            try {
-                tagRepository.saveAndFlush(tagEntity);
-                updateUserInfo(getCurrentUserInfo());
-                return "link is update";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "link is not update";
-            }
+    public void addLinkFormDtoToDB(LinkFormDto linkFormDto) {
+        LinkEntity linkEntity = constructLinkEntityFromLinkFormDto(linkFormDto);
+        getCurrentUserInfo().getLinks().add(linkEntity);
+        System.out.println("get to user links");
+        try {
+            userRepository.saveAndFlush(getCurrentUserInfo());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -62,14 +43,25 @@ public class UserLinksServiceImpl implements UserLinksService {
     @Override
     @Transactional
     public Set<LinkFormDto> getLinkFormDtoSetFromDB() {
-        UserInfo userInfo = getCurrentUserInfo();
         Set<LinkFormDto> linkFormDtos = new HashSet<>();
-        for (TagEntity tagEntity : userInfo.getTags()) {
-            constructLinkFormDtoFromTagEntity(linkFormDtos, tagEntity);
+        for (LinkEntity link : getCurrentUserInfo().getLinks()) {
+            LinkFormDto linkFormDto = constructLinkFormDtoFromLinkEntity(link);
+            linkFormDtos.add(linkFormDto);
         }
         return linkFormDtos;
     }
 
+
+    @Override
+    @Transactional
+    public Set<LinkFormDto> getLinkFormDtoSetFromDBByUserInfo(UserInfo userInfo) {
+        Set<LinkFormDto> linkFormDtos = new HashSet<>();
+        for (LinkEntity link : userInfo.getLinks()) {
+            LinkFormDto linkFormDto = constructLinkFormDtoFromLinkEntity(link);
+            linkFormDtos.add(linkFormDto);
+        }
+        return linkFormDtos;
+    }
 
     //get links by tagName
     @Override
@@ -77,9 +69,12 @@ public class UserLinksServiceImpl implements UserLinksService {
     public Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName) {
         UserInfo userInfo = getCurrentUserInfo();
         Set<LinkFormDto> linkFormDtos = new HashSet<>();
-        for (TagEntity tag : userInfo.getTags()) {
-            if (tagName.equals(tag.getTagName())) {
-                constructLinkFormDtoFromTagEntity(linkFormDtos, tag);
+        for (LinkEntity link : userInfo.getLinks()) {
+            for (TagEntity tag : link.getTags()) {
+                if (tagName.equals(tag.getTagName())) {
+                    LinkFormDto linkFormDto = constructLinkFormDtoFromLinkEntity(link);
+                    linkFormDtos.add(linkFormDto);
+                }
             }
         }
         return linkFormDtos;
@@ -101,57 +96,39 @@ public class UserLinksServiceImpl implements UserLinksService {
     }
 
 
-    private void updateUserInfo(UserInfo userInfo) {
-        userRepository.saveAndFlush(userInfo);
+    private LinkFormDto constructLinkFormDtoFromLinkEntity(LinkEntity linkEntity) {
+        LinkFormDto linkFormDto = new LinkFormDto();
+        List<TagEntity> tags = linkEntity.getTags();
+        System.out.println("TAG"+tags+"----"+tags.size());
+        if (tags.size()!=0){
+        linkFormDto.setTag1(tags.get(0).getTagName());
+        linkFormDto.setTag2(tags.get(1).getTagName());
+        linkFormDto.setTag3(tags.get(2).getTagName());}
+        linkFormDto.setLinkName(linkEntity.getLinkName());
+        linkFormDto.setDescription(linkEntity.getDescription());
+        return linkFormDto;
     }
 
 
-    private void constructLinkFormDtoFromTagEntity(Set<LinkFormDto> linkFormDtos, TagEntity tagEntity) {
-        for (LinkEntity link : tagEntity.getLinks()) {
-            LinkFormDto linkFormDto = new LinkFormDto();
-            linkFormDto.setTagName(tagEntity.getTagName());
-            linkFormDto.setLinkName(link.getLinkName());
-            linkFormDto.setDescription(link.getDescription());
-            linkFormDtos.add(linkFormDto);
-        }
-    }
-
-
-    private void updateTagEntity(LinkFormDto linkFormDto, TagEntity tagEntity) {
-        getCurrentUserInfo();
-        LinkEntity linkEntity = new LinkEntity();
-        linkEntity.setLinkName(linkFormDto.getLinkName());
-        linkEntity.setDescription(linkFormDto.getDescription());
-        linkEntity.setDate(new Date());
-        Set<LinkEntity> links = tagEntity.getLinks();
-        links.add(linkEntity);
-        tagEntity.setLinks(links);
-        getCurrentUserInfo().getTags().add(tagEntity);
-    }
-
-
-    private TagEntity constructTagEntityFromLinkFormDto(LinkFormDto linkFormDto) {
+    private LinkEntity constructLinkEntityFromLinkFormDto(LinkFormDto linkFormDto) {
+        List<TagEntity> tags = new ArrayList<>();
+        TagEntity tagEntity1 = new TagEntity();
+        tagEntity1.setTagName(linkFormDto.getTag1());
+        tags.add(tagEntity1);
+        TagEntity tagEntity2 = new TagEntity();
+        tagEntity2.setTagName(linkFormDto.getTag2());
+        tags.add(tagEntity2);
+        TagEntity tagEntity3 = new TagEntity();
+        tagEntity3.setTagName(linkFormDto.getTag3());
+        tags.add(tagEntity3);
         Set<LinkEntity> links = new HashSet<>();
         LinkEntity linkEntity = new LinkEntity();
         linkEntity.setLinkName(linkFormDto.getLinkName());
         linkEntity.setDescription(linkFormDto.getDescription());
         linkEntity.setDate(new Date());
+        linkEntity.setTags(tags);
         links.add(linkEntity);
-        TagEntity tagEntity = new TagEntity();
-        tagEntity.setTagName(linkFormDto.getTagName());
-        tagEntity.setLinks(links);
-        getCurrentUserInfo().getTags().add(tagEntity);
-        return tagEntity;
+        return linkEntity;
     }
 
-
-    private TagEntity checkUniqueTag(String tagName) {
-        UserInfo userInfo = getCurrentUserInfo();
-        for (TagEntity tagEntity : userInfo.getTags()) {
-            if (tagName.equals(tagEntity.getTagName())) {
-                return tagEntity;
-            }
-        }
-        return null;
-    }
 }

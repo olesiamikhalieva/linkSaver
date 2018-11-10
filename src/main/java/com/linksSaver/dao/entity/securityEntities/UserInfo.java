@@ -1,5 +1,6 @@
 package com.linksSaver.dao.entity.securityEntities;
 
+import com.linksSaver.dao.entity.LinkEntity;
 import com.linksSaver.dao.entity.TagEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 @Getter
 @Setter
@@ -24,9 +26,9 @@ public class UserInfo {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_info_id")
-    private Set<TagEntity> tags;
+    private Set<LinkEntity> links = new HashSet<>();
 
     @Override
     public String toString() {
