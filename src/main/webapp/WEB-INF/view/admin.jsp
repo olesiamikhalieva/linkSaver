@@ -86,7 +86,7 @@
             <c:forEach items="${linkList}" var="link">
                 <tr align="center">
                     <td>${link.linkName}</td>
-                    <td>${link.tag1}__${link.tag2}__${link.tag3}__</td>
+                    <td>*${link.tag1}*${link.tag2}*${link.tag3}*</td>
                     <td>${link.description}</td>
                 </tr>
             </c:forEach>
