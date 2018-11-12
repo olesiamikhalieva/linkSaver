@@ -18,4 +18,6 @@ public interface UserLinksService {
     Set<LinkFormDto> getLinkFormDtoSetFromDBByUserInfo(UserInfo userInfo);
 
     Set<LinkFormDto> getLinkFormDtoSetByTagName(String tagName);
+
+    boolean findLinkByName(String name);
 }

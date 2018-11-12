@@ -2,6 +2,7 @@ package com.linksSaver.controller;
 
 import com.linksSaver.dto.LinkFormDto;
 import com.linksSaver.service.UserLinksService;
+import com.linksSaver.validator.LinkValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class StartController {
     @Autowired
     private UserLinksService userLinksService;
 
+    @Autowired
+    private LinkValidator linkValidator;
+
     private static final Logger logger = LoggerFactory
             .getLogger(StartController.class);
 
@@ -31,11 +35,11 @@ public class StartController {
     @GetMapping("/add")
     public String addLink(@ModelAttribute LinkFormDto linkFormDto) {
         try {
-            String check = "\\S+";
-            if (linkFormDto.getLinkName().matches(check)) {
-                System.out.println("NAME:   ---->" + linkFormDto.getLinkName());
+            if (linkValidator.validate(linkFormDto).equals("ok")) {
                 userLinksService.addLinkFormDtoToDB(linkFormDto);
                 logger.info("Add linkFormDto " + linkFormDto.getLinkName());
+            }else {
+
             }
         } catch (Exception e) {
             e.printStackTrace();

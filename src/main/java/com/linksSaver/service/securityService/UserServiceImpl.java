@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.getOne(2L);
         Set<Role> roles = new HashSet<>(Collections.singleton(role));
         userInfo.setRoles(roles);
-        System.out.println(userInfo);
-        System.out.println(roles);
+       // System.out.println(userInfo);
+       // System.out.println(roles);
         userRepository.save(userInfo);
 
     }

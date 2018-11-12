@@ -1,8 +1,12 @@
-/***
-Bootstrap Line Tabs by @keenthemes
-A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
-Licensed under MIT
-***/
+#jumb{
+background-color: #a0d2ea;
+    /*!*background-size: cover;*!*/
+    /*background: url(../css/maiak_luna_pirs_125189_3300x2282.jpg) no-repeat 0% 25%;*/
+    /*color: blue;*/
+    /*text-align: center;*/
+    /*text-shadow: black 0.3em 0.3em 0.3em;*/
+
+}
 
 .content {
     padding: 30px;

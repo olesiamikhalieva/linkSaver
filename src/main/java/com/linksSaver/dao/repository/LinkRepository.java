@@ -8,4 +8,6 @@ public interface LinkRepository extends JpaRepository<LinkEntity,Long> {
     void deleteLinkEntityByLinkName(String name);
 
     LinkEntity findAllByTagsOrderByDate(String tag);
+
+    LinkEntity findByLinkName(String name);
 }

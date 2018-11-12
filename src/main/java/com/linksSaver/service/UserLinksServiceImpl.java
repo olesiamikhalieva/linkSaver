@@ -31,7 +31,7 @@ public class UserLinksServiceImpl implements UserLinksService {
     public void addLinkFormDtoToDB(LinkFormDto linkFormDto) {
         LinkEntity linkEntity = constructLinkEntityFromLinkFormDto(linkFormDto);
         getCurrentUserInfo().getLinks().add(linkEntity);
-        System.out.println("get to user links");
+     //   System.out.println("get to user links");
         try {
             userRepository.saveAndFlush(getCurrentUserInfo());
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class UserLinksServiceImpl implements UserLinksService {
     private UserInfo getCurrentUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfo userInfo = userRepository.findByUsername(authentication.getName());
-        System.out.println("UserInfo at begin userInfoService: " + userInfo);
+      //  System.out.println("UserInfo at begin userInfoService: " + userInfo);
         return userInfo;
     }
 
@@ -99,11 +99,12 @@ public class UserLinksServiceImpl implements UserLinksService {
     private LinkFormDto constructLinkFormDtoFromLinkEntity(LinkEntity linkEntity) {
         LinkFormDto linkFormDto = new LinkFormDto();
         List<TagEntity> tags = linkEntity.getTags();
-        System.out.println("TAG"+tags+"----"+tags.size());
-        if (tags.size()!=0){
-        linkFormDto.setTag1(tags.get(0).getTagName());
-        linkFormDto.setTag2(tags.get(1).getTagName());
-        linkFormDto.setTag3(tags.get(2).getTagName());}
+       // System.out.println("TAG" + tags + "----" + tags.size());
+        if (tags.size() != 0) {
+            linkFormDto.setTag1(tags.get(0).getTagName());
+            linkFormDto.setTag2(tags.get(1).getTagName());
+            linkFormDto.setTag3(tags.get(2).getTagName());
+        }
         linkFormDto.setLinkName(linkEntity.getLinkName());
         linkFormDto.setDescription(linkEntity.getDescription());
         return linkFormDto;
@@ -129,6 +130,15 @@ public class UserLinksServiceImpl implements UserLinksService {
         linkEntity.setTags(tags);
         links.add(linkEntity);
         return linkEntity;
+    }
+
+    @Override
+    public boolean findLinkByName(String name) {
+        if (linkRepository.findByLinkName(name) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

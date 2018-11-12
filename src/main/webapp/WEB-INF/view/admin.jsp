@@ -72,7 +72,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="col-sm-6">
+    <%--<div class="col-sm-8">--%>
         <h1>${user}</h1>
         <table class="table table-sm table-bordered">
             <thead>
@@ -84,15 +84,15 @@
             </thead>
             <tbody>
             <c:forEach items="${linkList}" var="link">
-                <tr align="center">
-                    <td>${link.linkName}</td>
+                <tr>
+                    <td> <a href="${link.linkName}">${link.linkName}</a></td>
                     <td>*${link.tag1}*${link.tag2}*${link.tag3}*</td>
                     <td>${link.description}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-    </div>
+    <%--</div>--%>
 </div>
 
 <!-- /container -->
