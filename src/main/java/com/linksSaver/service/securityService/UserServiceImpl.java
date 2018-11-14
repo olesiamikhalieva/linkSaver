@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(UserInfo userInfo) {
         userInfo.setPassword(bCryptPasswordEncoder.encode(userInfo.getPassword()));
-        Role role = roleRepository.getOne(2L);
+        Role role = roleRepository.getOne(1L);
         Set<Role> roles = new HashSet<>(Collections.singleton(role));
         userInfo.setRoles(roles);
        // System.out.println(userInfo);
