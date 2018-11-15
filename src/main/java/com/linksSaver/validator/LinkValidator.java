@@ -16,9 +16,9 @@ public class LinkValidator {
         if (linkFormDto.getLinkName().matches(check)==false) {
             return "Link is a required field.";
         }
-        if (linkRepository.findByLinkName(linkFormDto.getLinkName())!=null) {
-          return "This link is exist.";
-        }
+//        if (linkRepository.findByLinkName(linkFormDto.getLinkName())!=null) {
+//          return "This link is exist.";
+//        }
         return "ok";
     }
 }
