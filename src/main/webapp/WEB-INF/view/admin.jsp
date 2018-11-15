@@ -22,14 +22,14 @@
         <form id="logoutForm" method="POST" action="${contextPath}/logout">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
-        <div class="col-md-offset-8"><h3>Welcome, ${pageContext.request.userPrincipal.name} | <a
-                onclick="document.forms['logoutForm'].submit()">Logout</a></h3></div>
+        <div class="col-md-offset-8"><h4>Welcome, ${pageContext.request.userPrincipal.name} | <a
+                onclick="document.forms['logoutForm'].submit()">Logout</a></h4></div>
     </c:if>
-    <div class="alert alert-info" role="alert">
-        <h1>LinksSaver</h1>
-    </div>
 </div>
 
+<div class="alert alert-info" role="alert">
+    <h1>LinksSaver</h1>
+</div>
 
 <div class="container">
     <form action="/admin/delete/${id}}">
@@ -72,30 +72,33 @@
     </div>
 </div>
 <div class="container">
-    <%--<div class="col-sm-8">--%>
-        <h1>${user}</h1>
-        <table class="table table-sm table-bordered">
-            <thead>
-            <tr align="center" class="table-active">
-                <th>link</th>
-                <th>tags</th>
-                <th>description</th>
+    <h1>${user}</h1>
+    <table class="table table-sm table-bordered">
+        <thead>
+        <tr align="center" class="table-active">
+            <th>link</th>
+            <th>tags</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${linkList}" var="link">
+            <tr>
+                <td><a href="${link.linkName}">${link.linkName}</a></td>
+                <td>*${link.tag1}*${link.tag2}*${link.tag3}*</td>
+                <td>${link.description}</td>
             </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${linkList}" var="link">
-                <tr>
-                    <td> <a href="${link.linkName}">${link.linkName}</a></td>
-                    <td>*${link.tag1}*${link.tag2}*${link.tag3}*</td>
-                    <td>${link.description}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    <%--</div>--%>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
-<!-- /container -->
+<footer class="modal-footer" id="footer1">
+    <div text-align="center">
+        <p>#LinksSaver 2018</p>
+    </div>
+</footer>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>

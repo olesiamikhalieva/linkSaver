@@ -10,7 +10,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -19,14 +18,17 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <style>
+        <%@include file='../resources/css/mainLink.css' %>
+    </style>
 
 </head>
 
-<body>
-
+<div class="alert alert-info" role="alert">
+    <h1>LinksSaver</h1>
+</div>
 <div class="container">
-
+    <div class="col-md-4">
     <form:form method="POST" action="/registration" modelAttribute="userInfoForm" class="form-signin">
         <h2 class="form-signin-heading">Create your account</h2>
         <spring:bind path="username">
@@ -54,9 +56,20 @@
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
-
+    </div>
 </div>
-<!-- /container -->
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+<footer class="modal-footer" id="footer1">
+    <div text-align="center">
+        <p>#LinksSaver 2018</p>
+    </div>
+</footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>

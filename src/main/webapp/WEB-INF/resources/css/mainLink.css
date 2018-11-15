@@ -1,10 +1,24 @@
 #jumb{
 background-color: #a0d2ea;
-    /*!*background-size: cover;*!*/
-    /*background: url(../css/maiak_luna_pirs_125189_3300x2282.jpg) no-repeat 0% 25%;*/
-    /*color: blue;*/
-    /*text-align: center;*/
-    /*text-shadow: black 0.3em 0.3em 0.3em;*/
+}
+#footer2{
+    padding-right: 60px;
+    padding-left: 60px;
+    border-radius: 6px;
+    padding-top: 1.5rem;
+    color: #1b6d85;
+    border-top: .05rem solid #e5e5e5;
+    text-align: center;
+    background-color:#d9edf7;
+
+}
+
+#footer1{
+    padding-top: 1.5rem;
+    color: #1b6d85;
+    border-top: .05rem solid #e5e5e5;
+    text-align: center;
+    background-color:#d9edf7;
 
 }
 
