@@ -17,12 +17,13 @@
         <form id="logoutForm" method="POST" action="${contextPath}/logout">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
-        <div class="col-md-offset-8"><h3>Welcome, ${pageContext.request.userPrincipal.name} | <a
-                onclick="document.forms['logoutForm'].submit()">Logout</a></h3></div>
+        <div class="col-md-offset-8"><h4>Welcome, ${pageContext.request.userPrincipal.name} | <a
+                onclick="document.forms['logoutForm'].submit()">Logout</a></h4></div>
     </c:if>
-    <div class="alert alert-info" role="alert">
-        <h1>LinksSaver</h1>
-    </div>
+
+</div>
+<div class="alert alert-info" role="alert">
+    <h1>LinksSaver</h1>
 </div>
 <div class="container">
     <div class="col-md-4">
@@ -116,6 +117,11 @@
         </c:forEach>
     </div>
 </div>
+<footer class="modal-footer" id="footer1">
+    <div text-align="center">
+    <p>#LinksSaver 2018</p>
+    </div>
+</footer>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>

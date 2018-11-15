@@ -11,11 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Log in with your account</title>
+    <title>LinksSaver</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
@@ -26,11 +22,13 @@
 </head>
 
 <body>
+
+
+
 <div class="container">
     <div class="jumbotron" id="jumb">
         <h1>LinksSaver</h1>
         <p>product for you!!!</p>
-        <%--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>--%>
     </div>
     <div class="row">
         <div text-align="center">
@@ -53,7 +51,14 @@
         </div>
     </div>
 </div>
-<!-- /container -->
+<div class="container">
+    <div class="alert">
+<footer class="modal-footer" id="footer2">
+    <div text-align="center">
+        <p>#LinksSaver 2018</p>
+    </div>
+</footer>
+</div></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
