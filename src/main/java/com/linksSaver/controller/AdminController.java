@@ -44,10 +44,12 @@ public class AdminController {
     public String main(@RequestParam Long id){
         try {
             userService.deleteById(id);
+            logger.info("Delete user with id: "+id);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Error deleting user by id.");
         }
-        logger.info("Delete user with id: "+id);
+
         return "redirect:/admin";
     }
 
@@ -58,8 +60,10 @@ public class AdminController {
         try {
             UserInfo userInfo = userService.findByUsername(name);
             linkFormDtoSet = userLinksService.getLinkFormDtoSetFromDBByUserInfo(userInfo);
+            logger.info("Information by user with name: "+name);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Error with finding user with name: "+name);
         }
         return "redirect:/admin";
     }

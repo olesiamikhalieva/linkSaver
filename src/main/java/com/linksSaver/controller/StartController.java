@@ -42,6 +42,7 @@ public class StartController {
 
             }
         } catch (Exception e) {
+            logger.error("Validate error");
             e.printStackTrace();
         }
         return "redirect:/linksSaver";
@@ -51,10 +52,11 @@ public class StartController {
     public String deleteLink(@PathVariable String linkName) {
         try {
             userLinksService.deleteLinkFromDB(linkName);
+            logger.info("Delete link: " + linkName);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Error in delete link by name.");
         }
-        logger.info("Delete " + linkName);
         return "redirect:/linksSaver";
     }
 
