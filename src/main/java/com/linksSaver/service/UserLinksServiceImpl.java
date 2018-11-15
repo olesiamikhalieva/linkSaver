@@ -83,7 +83,11 @@ public class UserLinksServiceImpl implements UserLinksService {
     @Override
     @Transactional
     public void deleteLinkFromDB(String linkName) {
-        linkRepository.deleteLinkEntityByLinkName(linkName);
+        for (LinkEntity link : getCurrentUserInfo().getLinks()) {
+            if (link.getLinkName().equals(linkName)) {
+                linkRepository.deleteLinkEntityByLinkName(linkName);
+            }
+        }
     }
 
 

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 
 @Controller
 @RequestMapping("/linksSaver")
@@ -25,17 +27,19 @@ public class StartController {
     private static final Logger logger = LoggerFactory
             .getLogger(StartController.class);
 
+    Set<LinkFormDto> links = userLinksService.getLinkFormDtoSetFromDB();
+
     @RequestMapping(method = RequestMethod.GET)
     public String getMain(Model model) {
         logger.info("Returning mainLink.jsp page");
-        model.addAttribute("allLinksList", userLinksService.getLinkFormDtoSetFromDB());
+        model.addAttribute("allLinksList", links);
         return "mainLink";
     }
 
     @GetMapping("/add")
     public String addLink(@ModelAttribute LinkFormDto linkFormDto) {
         try {
-            if (linkValidator.validate(linkFormDto).equals("ok")) {
+            if (linkValidator.validate(linkFormDto,links).equals("ok")) {
                 userLinksService.addLinkFormDtoToDB(linkFormDto);
                 logger.info("Add linkFormDto " + linkFormDto.getLinkName());
             }else {
